@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="comparative_wealth_report" 
+            model="comparative.wealth"
+            name="comparative_wealth_report.module_report"
+            file="comparative_wealth_report.module_report"
+            report_type="qweb-html"
+            string="Comparative Wealth"/>
+
+        <record id="comparative_wealth_report_wizard" model="ir.ui.view">
+            <field name="name">comparative_wealth_report_wizard</field>
+            <field name="model">comparative.wealth.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Comparative Wealth Report Detail">
+                    <sheet>
+                        <separator string=""/>
+                        <group col="4">
+                            <field name="client_name"/>
+                            <field name="select_year_from"/>
+                            <field name="select_year_to"/>
+                        </group>
+                        <footer>
+                            <button string="Approve" name="%(comparative_wealth_report)d" type="action" default_focus="1" class="oe_highlight"/>
+                            or
+                            <button string="Cancel" class="oe_link" special="cancel"/>
+                        </footer>
+                   </sheet> 
+                </form>
+            </field>
+        </record>
+
+        <record id="action_comparative_wealth_report" model="ir.actions.act_window">
+                    <field name="name">Comparative Wealth</field>
+                    <field name="res_model">comparative.wealth.wizard</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                   <field name="view_id" ref="comparative_wealth_report_wizard"/>
+                   <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.values" id="create_comparative_wealth_report_values">
+            <field name="model_id" ref="income_tax_return.model_comparative_wealth" />
+            <field name="name">Comp Wealth</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_comparative_wealth_report'))" />
+            <field name="key">action</field>
+            <field name="model">comparative.wealth</field>
+        </record>
+
+
+        <record id="comparative_wealth_form_button_added_view" model="ir.ui.view">
+            <field name="name">comparative_wealth_form_button_added_view</field>
+            <field name="model">comparative.wealth</field>
+            <field name="inherit_id" ref="income_tax_return.comparative_wealth_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <header>
+                <button name="%(action_comparative_wealth_report)d" type='action' string='Comparative Wealth Wizard'/>
+                </header>
+            </field>
+        </record>
+        <menuitem name="Comparative Wealth Report" id="menu_comparative_wealth_report_child" parent="income_tax_return.menu_income_tax_returns_child"  sequence="79" action="action_comparative_wealth_report"/>
+
+    </data>
+</openerp>

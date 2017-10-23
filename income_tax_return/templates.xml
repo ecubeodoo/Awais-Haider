@@ -1,0 +1,1863 @@
+<!--=====================================================================================
+#    This is the main view file for "income tax return" module.In this module we initially
+#    create three menu items:
+#    i  : Income Tax Returns.
+#    ii : Comparative Wealth.
+#   iii: Tax Computation.
+===========================================================================================-->
+<openerp>
+    <data>
+        <!--=====================================================================================
+        #    i  : Income Tax Returns.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+                <record id="income_tax_returns_form_view" model="ir.ui.view">
+                    <field name="name">income_tax_returns_form_view</field>
+                    <field name="model">income.tax.returns</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Income Tax Returns">
+                            <header>
+                                <button name="btn_draft_to_prepared" type="object" string="Preparing"  attrs="{'invisible': [('state','!=','draft')]}"/>
+                                <button name="queru_subbmitted_btn" type="object" string="Create Invoice" attrs="{'invisible': [('state','in',('draft','submitted'))]}"/>
+                                <field name="state" widget="statusbar"/>
+                            </header>
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left">                               
+                                        <field name="client_name" domain="[('customer','=',True)]"/>
+                                        <field name="tax_year"/>
+                                        <field name="group"/>
+                                    </group>
+                                    <group name="group_right">
+                                        <field name="period"/>
+                                        <field name="unit_price"/>
+                                        <field name="prepared_by"/>
+                                        <field name="comparative_id"/>
+                                        <field name="tax_computation"/>
+                                        <field name="custom_seq" invisible = "1"/>
+                                    </group>
+                                </group>
+                                <notebook colspan="5">
+                                    <page string="Description">
+                                        <field name="description"/>
+                                    </page>
+                                </notebook>
+                            </sheet>
+                            <!-- Mail forum-START -->
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
+                            <!-- Mail forum-ENDS -->
+
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Tree View-START]=====================-->
+
+                <record id="income_tax_returns_tree_view" model="ir.ui.view">
+                    <field name="name">income_tax_returns_tree_view</field>
+                    <field name="model">income.tax.returns</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Income Tax Returns">
+                            <field name="client_name"/>
+                            <field name="tax_year"/>
+                            <field name="description"/>
+                            <field name="period"/>
+                            <field name="unit_price"/>
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+            
+            <!--========================[Search View-START]===================-->
+                <record id="income_tax_returns_search_view" model="ir.ui.view">
+                    <field name="name">income_tax_returns_search_view</field>
+                    <field name="model">income.tax.returns</field>
+                    <field name="arch" type="xml">
+                        <search string="State">
+                            <filter string="Draft" name="filter_draft" domain="[('state','=','draft')]" default="True" />
+                            <filter string="Prepared" name="filter_prepared" domain="[('state','=','prepared')]" />
+                            <filter string="Submitted" name="filter_submitted" domain="[('state','=','submitted')]" />
+                            <group expand="0" string="Group By">
+                                <filter string="Client" icon="terp-partner" domain="[]" context="{'group_by':'client_name'}"/>
+                                <filter string="Tax Year" icon="terp-partner" domain="[]" context="{'group_by':'tax_year'}"/>
+                                <filter string="State" icon="terp-partner" domain="[]" context="{'group_by':'state'}"/>
+                                <filter string="Group" icon="terp-partner" domain="[]" context="{'group_by':'group'}"/>
+                            </group>
+                        </search>
+                    </field>
+                </record>
+            <!--************************[Search View-ENDS]********************-->
+            
+            <!--========================[Action-START]========================-->
+                <record model="ir.actions.act_window" id="action_income_tax_returns">
+                    <field name="name">Income Tax Returns</field>
+                    <field name="res_model">income.tax.returns</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="context">{'search_default_filter_draft':1}</field>
+                    <field name="search_view_id" ref="income_tax_returns_search_view"/>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+                <menuitem name="Income Tax Returns" id="menu_income_tax_returns"  sequence="0"/>.
+                <menuitem name="Income Tax Returns" id="menu_income_tax_returns_child" parent="menu_income_tax_returns"  sequence="0"/>
+                <menuitem name="Income Tax Returns" id="menu_income_tax_returns_child_child" parent="menu_income_tax_returns_child" action="action_income_tax_returns" sequence="1"/>
+            <!--************************[Menu-ENDS]***************************-->
+        <!--!!______________________[Income Tax Returns-ENDS]_______________________________!!-->
+
+
+
+        <!--=====================================================================================
+        #    ii : Comparative Wealth.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="comparative_wealth_form_view" model="ir.ui.view">
+                    <field name="name">comparative_wealth_form_view</field>
+                    <field name="model">comparative.wealth</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <header>
+                            <button name="update" type="object" string="Update"/>
+                        </header>
+                        <form string="Income Tax Returns">
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left"> 
+                                        <field name="name"/>
+                                        <field name="all_years" invisible="True" default="True"/>
+                                        <field name="group"/>
+                                    </group>
+                                    <group name="group_right">
+                                    
+                                    </group>
+                                        
+                                        <!-- Group-"Cash Difference"-START -->
+                                            <group name="reconciliation_difference" string="Cash Difference">
+<!--                                                 <field name="total_2005" invisible="0" string="Year 2005" attrs="{'invisible': [('total_2005', '==', 0)]}"/>
+                                                <field name="total_2006" invisible="0" string="Year 2006" attrs="{'invisible': [('total_2006', '==', 0)]}"/>
+                                                <field name="total_2007" invisible="0" string="Year 2007" attrs="{'invisible': [('total_2007', '==', 0)]}"/>
+                                                <field name="total_2008" invisible="0" string="Year 2008" attrs="{'invisible': [('total_2008', '==', 0)]}"/>
+                                                <field name="total_2009" invisible="0" string="Year 2009" attrs="{'invisible': [('total_2009', '==', 0)]}"/>
+                                                <field name="total_2010" invisible="0" string="Year 2010" attrs="{'invisible': [('total_2010', '==', 0)]}"/>
+                                                <field name="total_2011" invisible="0" string="Year 2011" attrs="{'invisible': [('total_2011', '==', 0)]}"/>
+                                                <field name="total_2012" invisible="0" string="Year 2012" attrs="{'invisible': [('total_2012', '==', 0)]}"/>
+                                                <field name="total_2013" invisible="0" string="Year 2013" attrs="{'invisible': [('total_2013', '==', 0)]}"/> -->
+                                                <field name="total_2016" />
+                                                <field name="total_2015" />
+                                                <field name="total_2014" invisible="0" string="Year 2014" attrs="{'invisible': [('total_2014', '==', 0)]}"/>
+<!--                                                 <field name="total_2017" invisible="0" string="Year 2017" attrs="{'invisible': [('total_2017', '==', 0)]}"/>
+                                                <field name="total_2018" invisible="0" string="Year 2018" attrs="{'invisible': [('total_2018', '==', 0)]}"/>
+                                                <field name="total_2019" invisible="0" string="Year 2019" attrs="{'invisible': [('total_2019', '==', 0)]}"/>
+                                                <field name="total_2020" invisible="0" string="Year 2020" attrs="{'invisible': [('total_2020', '==', 0)]}"/> -->
+                                            </group>
+                                        <!-- Group-"Cash Difference"-ENDS -->
+
+                                        <!-- Group-"Reconciliation Difference"-START -->
+                                            <group name="cash_difference" string="Reconciliation Difference">
+<!--                                                 <field name="ttl_2011" invisible="0" string="Year 2011" attrs="{'invisible': [('ttl_2011', '==', 0)]}"/>
+                                                <field name="ttl_2012" invisible="0" string="Year 2012" attrs="{'invisible': [('ttl_2012', '==', 0)]}"/>
+                                                <field name="ttl_2013" invisible="0" string="Year 2013" attrs="{'invisible': [('ttl_2013', '==', 0)]}"/> -->
+                                                <field name="ttl_2016"/>
+                                                <field name="ttl_2015" />
+                                                <field name="ttl_2014" invisible="0" string="Year 2014" attrs="{'invisible': [('ttl_2014', '==', 0)]}"/>
+<!--                                                 <field name="ttl_2017" invisible="0" string="Year 2017" attrs="{'invisible': [('ttl_2017', '==', 0)]}"/>
+                                                <field name="ttl_2018" invisible="0" string="Year 2018" attrs="{'invisible': [('ttl_2018', '==', 0)]}"/>
+                                                <field name="ttl_2019" invisible="0" string="Year 2019" attrs="{'invisible': [('ttl_2019', '==', 0)]}"/>
+                                                <field name="ttl_2020" invisible="0" string="Year 2020" attrs="{'invisible': [('ttl_2020', '==', 0)]}"/> -->
+                                            </group>
+                                        <!-- Group-"Reconciliation Difference"-ENDS -->
+
+                                    
+                                </group>
+                                <notebook>
+                                    
+                                    <!-- Page-"Cash Reconciliation"-START -->
+                                        <page string="Cash Reconciliation">
+                                            <!-- "Opening Workbook"-START -->
+                                                <group name="receipts" string="Opening">
+                                                </group>
+                                                <field name="cash_opening_id" attrs="{'invisible': [('all_years', '==', True)]}"  nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="receipt_type" string="Type"/>
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                    </tree>
+                                                </field>
+                                                <!--  -->
+                                                <field name="cash_opening_ids" attrs="{'invisible': [('all_years', '!=', True)]}"  nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="receipt_type" string="Type"/>
+<!--                                                         <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+                                                    </tree>
+                                                </field>
+                                            <!-- "Opening Workbook"-END -->
+                                            <!-- "Receipts Workbook"-START-->
+                                                <group name="receipts" string="Receipts">
+                                                </group>
+                                                <!--  -->
+                                                <field name="cash_receipts_ids" attrs="{'invisible': [('all_years', '!=', True)]}"  nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="receipt_type" string="Type"/>
+                                                        <field name="sub_type" string="Sub Type"/>
+                                                        <field name="tax_type" string="Tax Type"/>
+                                                        <field name="non_cash_receipts" context="{'default_name': parent.name, 'default_receipts_ids': active_id}"/>
+                                                        <field name="capital_gain" context="{'default_name': parent.name}" />
+<!--                                                         <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+                                                    </tree>
+                                                </field>
+                                            <!-- "Receipts Workbook"-END-->
+                                            <!-- "Payments Workbook"-START-->
+                                                <group name="receipts" string="Payments">
+                                                </group>
+ 
+
+                                                <field name="cash_payments_ids" attrs="{'invisible': [('all_years', '!=', True)]}"  nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="receipt_type" string="Type"/>
+                                                        <field name="deductible_allowance_ids"/>
+                                                        <field name="tax_type" string="Tax Type"/>
+                                                        <field name="sub_type" string="Sub Tax Type"/>
+<!--                                                         <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+                                                    </tree>
+                                                </field>
+                                            <!-- "Payments Workbook"-END-->
+                                            <!-- "Reconciliation of Cash and Bank Balance Workbook"-START-->
+                                                <group name="receipts" string="Reconciliation of Cash and Bank Balance">
+                                                </group>
+
+                                                <field name="cash_reconciliation_balance_ids" attrs="{'invisible': [('all_years', '!=', True)]}"  nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="receipt_type" string="Type"/>
+<!--                                                         <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+                                                    </tree>
+                                                </field>
+                                            <!-- "Reconciliation of Cash and Bank Balance Workbook"-END-->
+                                        </page>
+                                    <!-- Page-"Cash Reconciliation"-ENDS -->
+
+                                    <!-- Page-"Wealth Reconciliation"-START -->
+                                        <page string="Wealth Reconciliation">
+
+                                            <!-- Workbook-"Opening"-START -->
+                                                <group name="opening" string="Opening">
+                                                </group>
+
+                                                <field name="wealth_reconciliation_opening_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Opening"-ENDS -->
+
+                                            <!-- Workbook-"Income"-START -->
+                                                <group name="income" string="Income">
+                                                </group>
+
+                                                <field name="wealth_reconciliation_income_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="receipt_type" string="Type"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Income"-ENDS -->
+
+                                            <!-- Workbook-"Expense"-START -->
+                                                <group name="expense" string="Expense">
+                                                </group>
+
+                                                <field name="wealth_reconciliation_expense_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="receipt_type" string="Type"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Expense"-ENDS -->
+
+                                            <!-- Workbook-"Closing"-START -->
+                                                <group name="closing" string="Closing">
+                                                </group>
+     
+                                                <field name="cash_closing_1_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Closing"-ENDS -->
+                                        </page>
+                                    <!-- Page-"Wealth Reconciliation"-ENDS -->
+
+                                    <!-- Page-"Wealth Statement"-START -->
+                                        <page string="Wealth Statement">
+                                            <!-- Workbook-"Assets"-START -->
+                                                <group name="assets" string="Assets">
+                                                </group>
+                                                <field name="wealth_assets_id" attrs="{'invisible': [('all_years', '==', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <!-- <field name="opening_assets"/> -->
+                                                        <field name="types"/>
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+                                                    </tree>
+                                                </field>
+                                                
+                                                <field name="wealth_assets_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <!-- <field name="opening_assets"/> -->
+                                                        <field name="types"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Assets"-ENDS -->
+
+                                            <!-- Workbook-"Liability"-START -->
+                                                <group name="liability" string="Liability">
+                                                </group>
+
+                                                <field name="wealth_liability_id" attrs="{'invisible': [('all_years', '==', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="types"/>
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+                                                    </tree>
+                                                </field>
+                                                
+                                                <field name="wealth_liability_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="types"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Liability"-ENDS -->
+
+                                            <!-- Workbook-"Closing"-START -->
+                                                <group name="closing" string="Closing">
+                                                </group>
+
+                                                <field name="cash_closing_2_id" attrs="{'invisible': [('all_years', '==', True)]}"  nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+                                                    </tree>
+                                                </field>
+                                                
+                                                <field name="cash_closing_2_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="description"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Closing"-ENDS -->
+                                        </page>
+                                    <!-- Page-"Wealth Statement"-ENDS -->
+
+                                    <!-- Page-"Capital"-START -->
+                                        <page string="Capital" attrs="{'invisible':True}">
+                                            <!-- Workbook-"Capital Working"-START -->
+                                                <group name="capital_working" string="Capital Working">
+                                                </group>
+                                                <field name="capital_working_workbook_id" attrs="{'invisible': [('all_years', '==', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="business"/>
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+                                                    </tree>
+                                                </field>
+                                                
+                                                <field name="capital_working_workbook_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="business"/>
+<!--                                                         <field name="y2005" sum="Total"/>
+                                                        <field name="y2006" sum="Total"/>
+                                                        <field name="y2007" sum="Total"/>
+                                                        <field name="y2008" sum="Total"/>
+                                                        <field name="y2009" sum="Total"/>
+                                                        <field name="y2010" sum="Total"/>
+                                                        <field name="y2011" sum="Total"/>
+                                                        <field name="y2012" sum="Total"/>
+                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+<!--                                                         <field name="y2017" sum="Total"/>
+                                                        <field name="y2018" sum="Total"/>
+                                                        <field name="y2019" sum="Total"/>
+                                                        <field name="y2020" sum="Total"/> -->
+
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Capital Working"-ENDS -->
+                                        </page>
+                                    <!-- Page-"Capital"-ENDS -->
+
+                                        <!-- Page-"blance sheet"-START -->
+                                        <page string="Balance Sheet">
+                                            <!-- Workbook-"Balance Balance"-START -->
+                                                <field name="balance_sheet_workbook_ids"  nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle" />
+                                                        <field name="business"/>
+                                                        <field name="y2016" sum="Total"/>
+                                                        <field name="y2015" sum="Total"/>
+                                                        <field name="y2014" sum="Total"/>
+                                                    </tree>
+                                                </field>
+                                                
+                                            <!-- Workbook-"balance sheet Working"-ENDS -->
+                                        </page>
+                                    <!-- Page-"balance sheet"-ENDS -->
+
+                                </notebook>
+                            </sheet>
+                            <!-- Mail foram-START -->
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
+                            <!-- Mail foram-ENDS -->
+
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+ 
+            <!--========================[Tree View-START]=====================-->
+                <record id="comparative_wealth_tree_view" model="ir.ui.view">
+                    <field name="name">comparative_wealth_tree_view</field>
+                    <field name="model">comparative.wealth</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Comparative Wealth">
+                            <field name="name"/>
+                            <field name="write_uid"/>
+                            <field name="write_date"/>
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="comparative_wealth_action">
+                    <field name="name">Comparative Wealth</field>
+                    <field name="res_model">comparative.wealth</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+                <menuitem name="Comparative Wealth" id="menu_comparative_wealth_child" parent="menu_income_tax_returns_child" action="comparative_wealth_action" sequence="2"/>
+            <!--************************[Menu-ENDS]***************************-->
+        <!--!!______________________[Comparative Wealth-ENDS]_______________________________!!-->
+
+
+
+        <!--=====================================================================================
+        #    iii: Tax Computation.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+                <record id="tax_computation_form_view" model="ir.ui.view">
+                    <field name="name">tax_computation_form</field>
+                    <field name="model">tax.computation</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <header>
+                            <button name="update_computation" type="object" string="Update Computation"/>
+                            <button name="get_tax_rate" type="object" string="Get Tax Rate" class="oe_highlight"/>
+                            <button name="virtual_tax_minimum" type="object" string="Minimum Tax" class="oe_highlight"/>
+                            <!-- <button name="update_tax_depriciation" type="object" string="Tax Depreciation"/> -->
+                            <button name="update_losses" type="object" string="Update Losses"/>
+                        </header>
+                        <form string="Course Form">
+                            <sheet>
+                                <group col="4">
+                                        <field name="client_name"/>
+                                        <field name="tax_year"/>
+                                        <field name="comparative_id"/>
+                                        <field name="tax_computation" domain="[('client_name','=',client_name)]"/>
+                                        <field name="group"/>
+                                        <field name="aop_indv_type"/>
+                                        <field name="custom_seq" invisible="1"/>
+                                </group>
+                                <notebook col="4">
+                                        <page string="Tax Computation" colspan="4">
+                                            <group name="tax_sub_type" string="Tax Computation" col="2">
+                                            </group>
+                                            <group name="tax_sub_type" col="2">
+                                                <group name="left" string="Tax Income">
+                                                    <field name="tc_salary"/>
+                                                    <field name="tc_business"/>
+                                                    <field name="tc_property"/>
+                                                    <field name="tc_other_sources"/>
+                                                    <field name="tc_cgt"/>
+                                                    <field name="tc_for_remit"/>
+                                                    <field name="tc_arg_in"/>
+                                                    <field name="tc_share_aop"/>
+                                                    <field name="tc_total_income"/>
+                                                </group>
+                                                <group name="right"  string="Bahbood">
+                                                    <field name="tc_bahbood"/>
+                                                    <field name="tc_minimum"/>
+                                                    <field name="tc_turnover"/>
+                                                </group>
+                                            </group>
+
+                                            <group name="tax_sub_type" string="NTR Working" col="2">
+                                                <group name="left">
+                                                    <field name="tc_less_exempt"/>
+                                                    <field name="tc_less_sbi"/>
+                                                    <field name="tc_less_ftr"/>
+                                                    <field name="tc_ftr_exempt_diff"/>
+                                                    <field name="tc_less_ded_allowed"/>
+                                                    <field name="tc_ntr"/>
+                                                    <field name="tc_tax_liabilty"/>
+                                                    <field name="tax_lib_diff"/>
+                                                    <field name="tc_tax_already_ded"/>
+                                                    <field name="tc_tax_credits"/>
+                                                    <field name="tc_tax_pay_refund"/>
+                                                </group>
+                                                <group name="right">
+                                                </group>
+                                            </group>
+
+                                            <group name="tax_sub_type" string="FTR Income" col="2">
+                                                <group name="left">
+                                                    <field name="tc_income_charg_uftr"/>
+                                                    <field name="tc_tax_charge_ftr"/>
+                                                    <field name="tc_tax_deduct_ftr"/>
+                                                    <field name="tc_pay_refund_uftr"/>
+                                                </group>
+                                                <group name="right">
+                                                </group>
+                                            </group>
+
+                                            <group name="tax_sub_type" string="Income from Property" col="2">
+                                                <group name="left">
+                                                    <field name="tc_income_from_prp"/>
+                                                    <field name="tc_taxable_ifd"/>
+                                                    <field name="tc_taxable_ifp"/>
+                                                    <field name="tc_tax_liability_ifd"/>
+                                                    <field name="tc_ifp_ded"/>
+                                                    <field name="tc_ifp_pay_refund"/>
+                                                </group>
+                                                <group name="right">
+                                                </group>
+                                            </group>   
+
+                                            <group name="tax_sub_type" string="Capital Gain on Immovable" col="2">
+                                                <group name="left">
+                                                    <field name="tc_capital_gain"/>
+                                                    <field name="tc_cgt_ded"/>
+                                                    <field name="tc_balnc_taxable"/>
+                                                    <field name="tc_tax_pay_cg"/>
+                                                    <field name="tc_tax_paid_cg"/>
+                                                    <field name="tc_cgt_pay_refund"/>
+                                                </group>
+                                                <group name="right">
+                                                </group>
+                                            </group>
+
+                                            <group name="tax_sub_type" string="Capital Gain on Securities" col="2">
+                                                <group name="left">
+                                                    <field name="tc_capital_gain_s"/>
+                                                    <field name="tc_cgt_ded_s"/>
+                                                    <field name="tc_balnc_taxable_s"/>
+                                                    <field name="tc_tax_pay_cg_s"/>
+                                                    <field name="tc_tax_paid_cg_s"/>
+                                                    <field name="tc_cgt_pay_refund_s"/>
+                                                </group>
+                                                <group name="right">
+                                                </group>
+                                            </group>
+
+                                            <group name="tax_sub_type" string="Tax Deductions" col="2">
+                                                <group name="left">
+                                                    <field name="tc_ttl_ntr"/>
+                                                    <field name="tc_ttl_ftr"/>
+                                                    <field name="tc_ttl_sbi"/>
+                                                    <field name="tc_total_tax_lib"/>
+                                                    <field name="tc_ttd_ntr"/>
+                                                    <field name="tc_ttd_ntr_tc"/>
+                                                    <field name="tc_ttd_ftr"/>
+                                                    <field name="tc_ttd_sbi"/>
+                                                    <field name="tc_total_tax_ded"/>
+                                                    <field name="tc_final_pay_refund"/>
+                                                    
+                                                </group>
+                                                <group name="right">
+                                                </group>
+                                            </group>    
+                                        </page>
+<!--                                         <page string="Tax Computation" colspan="4">
+                                            <group name="tax_under_ntr" string="Tax under NTR" col="2">
+                                                <field name="income_under_ntr"/>
+                                                <field name="exempt_income"/>
+                                                <field name="deductible_allowance"/>
+                                                <field name="taxable_income"/>
+                                                <field name="tax_rate"/>
+                                                <field name="fixed_tax"/>
+                                                <field name="tax_liability"/>
+                                                <field name="portion_of_minimum_tax"/>
+                                                <field name="payable_tax"/>
+                                                <field name="tax_adjust"/>
+                                                <field name="tax_deduct_min"/>
+                                                <field name="total_tax"/>
+                                                <field name="tax_credits"/>
+                                                <field name="refund_adjust"/>
+                                                <field name="tax_ratio"/>
+                                                <field name="rebate"/>
+                                                <field name="admitted_tax"/>
+                                            </group>
+                                            <group name="tax_under_ntr" string="Tax under FTR" col="2">
+                                                <field name="income_under_ftr"/>
+                                                <field name="tax_deduct"/>
+                                            </group>
+                                        </page> -->
+                                        <page string="Tax Computations details">
+                                            <group name="income_under_ntr" string="Income Under NTR">
+                                            </group>
+                                            <field name="tax_computation_ntr_id">
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="receipt_type"/>
+                                                    <field name="sub_tax_type"/>
+                                                    <field name="tax_type"/>
+                                                    <field name="amount" sum="Total"/>
+                                                    <field name="no_of_months"/>
+                                                    <field name="min_wh"/>
+                                                </tree>
+                                            </field>
+
+                                            <group name="separate_block_income" string="Separate Block Income">
+                                            </group>
+                                            <field name="tax_computation_sbi_id">
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="receipt_type"/>
+                                                    <field name="amount" sum="Total"/>
+                                                    <field name="no_of_months"/>
+                                                    <field name="details"/>
+                                                    <field name="im_sec_type"/>
+                                                    <field name="tax"/>
+                                                </tree>
+                                            </field>
+
+                                            <group name="tax_computation_ftr_id" string="Income Under FTR">
+                                            </group>
+                                            <field name="tax_computation_ftr_id">
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="receipt_type"/>
+                                                    <field name="amount" sum="Total"/>
+                                                    <field name="rate"/>
+                                                    <field name="tax" sum="Total"/>
+                                                    <field name="no_of_months"/>
+                                                </tree>
+                                            </field>
+                                            
+                                            <group name="tax_exempt" string="Exempt Income">
+                                            </group>
+                                            <field name="tax_computation_exempt_id">
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="sub_type"/>
+                                                    <field name="amount" sum="Total"/>
+                                                </tree>
+                                            </field>
+
+                                            <group name="tax_computation_deductible_id" string="Deductible Allowance">
+                                            </group>
+                                            <field name="tax_computation_deductible_id">
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="deductible_allowance_ids"/>
+                                                    <field name="amount" sum="Total"/>
+                                                    <field name="ded_allowed"/>
+                                                </tree>
+                                            </field>
+                                            <group name="tax_credits_id" string="Tax Credits">
+                                            </group>
+                                            <field name="tax_credits_id">
+                                                <tree editable="bottom">
+                                                    <field name="check_min_tax"/>
+                                                    <field name="description"/>
+                                                    <field name="amount" sum="Total" string="Eilgible Amount"/>
+                                                    <field name="rate" string="Applicable Rate"/>
+                                                    <field name="tax" sum="Total" string="Tax Credit"/>
+                                                    <field name="remarks"/>
+                                                </tree>
+                                            </field>
+
+                                            <group name="tax_deducted" string="Tax Deducted">
+                                            </group>
+                                            <field name="tax_deduct_link_id">
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="tax_type"/>
+                                                    <field name="sub_type"/>
+                                                    <field name="amount" sum="Total"/>
+                                                </tree>
+                                            </field>
+                                            
+                                            <group name="tax_rebate_id" string="Rebate" invisible="True">
+                                            </group>
+                                            <field name="tax_rebate_id" invisible="True">
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="amount" sum="Total"/>
+                                                    <field name="rate"/>
+                                                    <field name="tax" sum="Total"/>
+                                                </tree>
+                                            </field>
+
+                                        </page>
+                                        <page string="Profit and Loss">
+
+                                            <field name="pnl_computation">
+                                                <tree editable="bottom">
+                                                    <field name="business_name" domain="[('name.customer','=','asdasdasdaacasdfadf')]" context="{'default_client_name': parent.client_name,'default_tax_year': parent.tax_year,'default_comparative_wealth':parent.comparative_id}"/>
+                                                    <field name="profit"/>
+
+                                                </tree>
+                                            </field>
+                                        </page>
+
+                                        <page string="Tax Credit" colspan="4">
+                                            <group name="tax_sub_type_bool" string="Tax Credit" col="2">
+                                                <field name="tax_cr_tree_ids" string="Tax Credits" widget="many2many_tags"/>
+                                            </group>
+                                            <group>
+                                            </group>
+                                        </page>
+                                        <page string="Calcualtion Details" colspan="4">
+                                            <group name="calc_details" string="Calculation Details" col="2">
+                                                <field name="cc_profit_los_min_tax"/>
+                                                <field name="cc_tax_deducted_min"/>
+                                                <field name="cc_lib_bahbood"/>
+                                                <field name="cc_actual_liabilty"/>
+                                                <field name="cc_lib_amount"/>
+                                                <field name="cc_avg_rate_tax"/>
+                                            </group>
+                                            <group>
+                                            </group>
+                                        </page>
+
+                                        <page string="Losses" colspan="4">
+                                            <group name="calc_losses" string="Losses" col="2">
+                                                <field name="losses_ids" nolabel="1">
+                                                    <tree editable="bottom"  >
+                                                        <field name="tax_year" />
+                                                        <field name="loss_type" />
+                                                        <field name="business_loss" />
+                                                        <field name="property_loss" />
+                                                        <field name="other_src_loss" />
+                                                        <field name="cg_loss" />
+                                                        <field name="fr_remit_loss" />
+                                                    </tree>
+                                                </field>
+                                            </group>
+                                            <group>
+                                            </group>
+                                        </page>
+
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="tax_computation_action">
+                    <field name="name">Tax Computation</field>
+                    <field name="res_model">tax.computation</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+                <menuitem name="Tax Computation" id="menu_tax_computation_child" parent="menu_income_tax_returns_child" action="tax_computation_action" sequence="3"/>
+            <!--************************[Menu-ENDS]***************************-->
+        <!--!!______________________[Tax Computation-ENDS]__________________________________!!-->
+
+
+
+        <!--=====================================================================================
+        #    iv: Tax Rates Table.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="tax_rates_table_form_view" model="ir.ui.view">
+                    <field name="name">tax_rates_table_form_view</field>
+                    <field name="model">tax_rates_table.tax_rates_table</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Tax Rates Table">
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left"> 
+                                        <field name="tax_year"/>
+                                    </group>
+                                    <group name="group_right">
+                                        <field name="description"/>
+                                    </group> 
+                                </group>
+                                <notebook>
+                                    <!-- Page-"Tax Rates"-START -->
+                                        <page string="Tax Rates ">
+                                            <!-- Workbook-"Business Individuals"-START -->
+                                                <group name="business_individuals" string="Business Individuals">
+                                                </group>
+                                                <field name="business_rates_table_ids" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="amount_from"/>
+                                                        <field name="amount_to"/>
+                                                        <field name="fixed_tax_amount"/>
+                                                        <field name="rate_of_tax"/>
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Business Individuals"-ENDS -->
+
+                                            <!-- Workbook-"Salaried Individuals"-START -->
+                                                <group name="salaried_individuals" string="Salaried Individuals">
+                                                </group>
+                                                <field name="salaried_rates_table_ids" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="amount_from"/>
+                                                        <field name="amount_to"/>
+                                                        <field name="fixed_tax_amount"/>
+                                                        <field name="rate_of_tax"/>
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Salaried Individuals"-ENDS -->
+
+                                            <!-- Workbook-"Income From Property"-START -->
+                                                <group name="income_from_property" string="Income From Property">
+                                                </group>
+                                                <field name="income_from_property_ids" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="amount_from"/>
+                                                        <field name="amount_to"/>
+                                                        <field name="fixed_tax_amount"/>
+                                                        <field name="rate_of_tax"/>
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Income From Property"-ENDS -->
+
+                                            <!-- Workbook-"Capital Gain on Disposal of Securities"-START -->
+                                                <group name="cg_dis_securities" string="Capital Gain on Disposal of Securities">
+                                                </group>
+                                                <field name="securities_disposal_ids" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="period_from"/>
+                                                        <field name="period_to"/>
+                                                        <field name="rate"/>
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Capital Gain on Disposal of Securities"-ENDS -->
+
+                                            <!-- Workbook-"Capital Gain on Disposal of Immoveable Property"-START -->
+                                                <group name="cg_dis_securities" string="Capital Gain on Disposal of Immoveable Property">
+                                                </group>
+                                                <field name="securities_immoveable_ids" nolabel='1'>
+                                                    <tree editable="bottom">
+                                                        <field name="period_from"/>
+                                                        <field name="period_to"/>
+                                                        <field name="rate"/>
+                                                    </tree>
+                                                </field>
+                                            <!-- Workbook-"Capital Gain on Disposal of Immoveable Property"-ENDS -->
+
+                                        </page>
+                                    <!-- Page-"Tax Rates"-ENDS -->
+                                </notebook>
+                            </sheet>
+                            <!-- Mail foram-START -->
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
+                            <!-- Mail foram-ENDS -->
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Tree View-START]=====================-->
+                <record id="tax_rates_table_tree_view" model="ir.ui.view">
+                    <field name="name">tax_rates_table_tree_view</field>
+                    <field name="model">tax_rates_table.tax_rates_table</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Tax Rates Table">
+                            <field name="tax_year"/>
+                            <field name="description"/>
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="tax_rates_table_action">
+                    <field name="name">Tax Rates Table</field>
+                    <field name="res_model">tax_rates_table.tax_rates_table</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+                <menuitem name="Tax Rates Table" id="tax_rates_table_child" parent="menu_config_child" action="tax_rates_table_action" sequence="4"/>
+            <!--************************[Menu-ENDS]***************************-->
+        <!--!!______________________[Tax Rates Table-ENDS]__________________________________!!-->
+
+
+
+        <!--=====================================================================================
+        #    v: Capital Gain.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="capital_gain_form_view" model="ir.ui.view">
+                    <field name="name">capital_gain_form_view</field>
+                    <field name="model">capital_gain.capital_gain</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Capital Gain">
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left">
+                                        <field name="name"/>
+<!--                                         <field name="year_purchase"/>
+                                        <field name="sale_value"/>
+                                        <field name="purchase_value"/>
+                                        <field name="capital_gain"/> -->
+                                        <field name="comparative_wealth" invisible = "1"/>
+                                    </group>
+                                    <group name="group_right">
+                                        <field name="assets"/>
+<!--                                         <field name="year_sale"/>
+                                        <field name="description"/>
+                                        <field name="sold_value"/>
+                                        <field name="remaining_value"/> -->
+                                    </group> 
+                                </group>
+                                <field name="capital_gain_ids">
+                                    <tree editable="bottom" nolabel="1">
+                                        <field name="year_sale"/>
+                                        <field name="year_purchase"/>
+                                        <field name="sale_value"/>
+                                        <field name="purchase_value"/>
+                                        <field name="capital_gain"/>
+                                        <field name="description"/>
+                                        <field name="sold_value"/>
+                                        <field name="remaining_value"/>
+                                        <field name="no_of_months"/>
+                                        <field name="details"/>
+                                        <field name="im_sec_type"/>
+                                    </tree>
+                                </field>
+                                
+                            </sheet>
+                            <!-- Mail foram-START -->
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
+                            <!-- Mail foram-ENDS -->
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Tree View-START]=====================-->
+                <record id="capital_gain_tree_view" model="ir.ui.view">
+                    <field name="name">capital_gain_tree_view</field>
+                    <field name="model">capital_gain.capital_gain</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Capital Gain">
+                            <field name="year_purchase"/>
+                            <field name="year_sale"/>
+                            <field name="description"/>
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="capital_gain_action">
+                    <field name="name">Capital Gain</field>
+                    <field name="res_model">capital_gain.capital_gain</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+<!--                 <menuitem name="Capital Gain" id="capital_gain_child" parent="menu_income_tax_returns_child" action="capital_gain_action" sequence="5"/> -->
+            <!--************************[Menu-ENDS]***************************-->
+
+        <!--!!______________________[Capital Gain-ENDS]_____________________________________!!-->
+
+
+
+        <!--=====================================================================================
+        #    vi: Capital.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="capital_working_sub_form_view" model="ir.ui.view">
+                    <field name="name">capital_working_sub_form_view</field>
+                    <field name="model">capital_working_sub.capital_working_sub</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Capital">
+                            <sheet>
+                                <group name="group_top">
+                                    <field name="business"/>
+                                    <field name="name"/>
+                                    <field name="all_years" invisible="True" default="True"/>
+                                </group>
+                                <notebook col="4">
+                                    <page string="Capital Working" colspan="4">
+                                        <field name="capital_working_id" attrs="{'invisible': [('all_years', '!=', False)]}" nolabel='1'>
+                                            <tree editable="bottom">
+                                                <field name="description"/>
+                                                <field name="y2016" sum="Total"/>
+                                                <field name="y2015" sum="Total"/>
+                                                <field name="y2014" sum="Total"/>
+                                            </tree>
+                                        </field>
+                                        <field name="capital_working_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
+                                            <tree editable="bottom">
+                                                <field name="description"/>
+<!--                                                 <field name="y2005" sum="Total"/>
+                                                <field name="y2006" sum="Total"/>
+                                                <field name="y2007" sum="Total"/>
+                                                <field name="y2008" sum="Total"/>
+                                                <field name="y2009" sum="Total"/>
+                                                <field name="y2010" sum="Total"/>
+                                                <field name="y2011" sum="Total"/>
+                                                <field name="y2012" sum="Total"/>
+                                                <field name="y2013" sum="Total"/> -->
+                                                <field name="y2016" sum="Total"/>
+                                                <field name="y2015" sum="Total"/>
+                                                <field name="y2014" sum="Total"/>
+<!--                                                 <field name="y2017" sum="Total"/>
+                                                <field name="y2018" sum="Total"/>
+                                                <field name="y2019" sum="Total"/>
+                                                <field name="y2020" sum="Total"/> -->
+                                            </tree>
+                                        </field>
+                                    </page>
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="capital_working_sub_action">
+                    <field name="name">Capital Working</field>
+                    <field name="res_model">capital_working_sub.capital_working_sub</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+<!--                 <menuitem name="Capital Working" id="capital_working_sub_child" parent="menu_income_tax_returns_child" action="capital_working_sub_action" sequence="6"/> -->
+            <!--************************[Menu-ENDS]***************************-->
+        <!--!!______________________[Capital-ENDS]__________________________________________!!-->
+
+        <!--************************[PnL Computation]***************************-->
+
+        <record id="pnl_computation_form_view" model="ir.ui.view">
+                    <field name="name">pnl_computation_form_view</field>
+                    <field name="model">pnl.computation</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="pnl computation">
+                            <header>
+                                <button name="update" type="object" string="Get Values" class="oe_highlight"/>
+                            </header>
+                            <sheet>
+                                <group>
+                                <field name="name" domain="[('customer','=',client_name)]" context="{'default_customer': client_name,}"/>
+                                <field name="client_name" />
+                                <field name="tax_year" />
+                                <field name="comparative_wealth" />
+                                <field name="pnl_computation" domain="[('client_name','=',client_name)]"/>
+                                <field name="rateoftaxes" />
+                            </group>
+                            <group>
+                                            <group name="group_left" string="Ratio of Income">
+                                                    <field name="total_sale"/>
+                                                    <field name="sale_under_ntr"/>
+                                                    <field name="ntr_min_sales"/>
+                                                    <field name="sale_under_ftr"/>
+                                                    <field name="other_sale_under_ntr"/>
+                                                    <field name="other_sale_under_ftr"/>
+                                                </group>
+
+                                                <group name="group_right" string="Cost of Sales">
+                                                    <field name="purchases"/>
+                                                    <field name="direct_expenses"/>
+                                                    <field name="opening"/>
+                                                    <field name="closing"/>
+                                                    <field name="cost_of_sales"/>
+                                                </group>
+                                            </group>
+
+                                            <group>
+                                                <group name="group_left" string="Profit and Loss NTR">
+                                                    <field name="ntr_income"/>
+                                                    <field name="ntr_cost_of_sales"/>
+
+                                                    <field name="gross_profit"/>
+                                                    <field name="ntr_expense"/>
+                                                    <field name="ntr_profit_Loss"/>
+                                                    <field name="accounting_depreciation"/>
+                                                    <field name="inadmissible_expenses"/>
+                                                    <field name="tax_depreciation"/>
+                                                    <field name="tax_profit"/>
+                                                    <field name="tax_profit_min" invisible="True"/>
+                                                </group>
+                                                <group name="group_right" string="Profit and Loss FTR">
+                                                    <field name="ftr_income"/>
+                                                    <field name="ftr_cost_of_sales"/>
+                                                    <field name="ftr_gross_profit"/>
+                                                    
+                                                    <field name="ftr_expense"/>
+                                                    <field name="ftr_profit_Loss"/>
+                                                    <field name="ftr_accounting_depreciation"/>
+                                                    <field name="ftr_inadmissible_expenses"/>
+                                                    <field name="ftr_tax_depreciation"/>
+                                                    <field name="ftr_tax_profit"/>
+
+                                                </group>
+                                            </group>
+                                            <notebook>
+                                                <page name="profit_and_loss" string="Expenses">
+                                                    <field name="profit_loss_link_id">
+                                                        <tree editable="bottom">
+                                                            <field name="description"/>
+                                                            <field name="types" string='Type'/>
+                                                            <field name="admissible"/> 
+                                                            <field name="ntr"/>
+                                                            <field name="ftr_exempt"/>
+                                                            <field name="total"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                                <page name="capital" string="Capital">
+                                                    <group name="top">
+                                                        <group name="group_left">
+                                                            <field name="capital_opening"/>
+                                                            <field name="profit_for_period"/>
+                                                            <field name="capital_intro"/>
+                                                            <field name="capital_drawing"/>
+                                                            <field name="capital_closing"/>
+                                                        </group>
+                                                    </group>
+                                                </page>
+
+                                                <page name="minimum_tax" string="Minimum Tax">
+                                                    <field name="minimum_tax_ids">
+                                                        <tree editable="bottom">
+                                                            <field name="description"/>
+                                                            <field name="sales"/>
+                                                            <field name="adjustment"/> 
+                                                            <field name="profit"/>
+                                                            <field name="rate"/> 
+                                                            <field name="tax"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+
+                                                <page name="final_tax" string="Final Tax">
+                                                    <field name="final_tax_ids">
+                                                        <tree editable="bottom">
+                                                            <field name="description"/>
+                                                            <field name="sales"/>
+                                                            <field name="rate"/> 
+                                                            <field name="profit"/>
+                                                            <field name="tax"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+
+                                                <page name="acc_depr" string="Accounting Depreciation">
+                                                    <group name="top">
+                                                        <group name="group_left">
+                                                        </group>
+                                                        <group name="group_right" >
+                                                        </group>
+                                                    </group>
+                                                    <field name="accounting_depreciation_ids" nolabel='1'>
+                                                        <tree editable="bottom">
+                                                            <field name="desc" />
+                                                            <field name="selection_type" />
+                                                            <field name="rate" />
+                                                            <field name="code" />
+                                                            <field name="wdv_bf" />
+                                                            <field name="deletion" />
+                                                            <field name="d_month_use" />
+                                                            <field name="capital_gain" />
+                                                            <field name="addition_new" />
+                                                            <field name="month_use" />
+                                                            <field name="depreciation" />
+                                                            <field name="wdv_cf" />
+                                                        </tree>                                                        
+                                                    </field>
+                                                    <group name="accsummary" string="Summary" />
+                                                    <field name="pnl_acc_dep_sum_ids" nolabel='1'>
+                                                        <tree editable="bottom">
+                                                            <field name="selection_type" />
+                                                            <field name="rate" />
+                                                            <field name="code" />
+                                                            <field name="wdv_bf" />
+                                                            <field name="deletion" />
+                                                            <field name="d_month_use" />
+                                                            <field name="capital_gain" />
+                                                            <field name="addition_new" />
+                                                            <field name="month_use" />
+                                                            <field name="depreciation" />
+                                                            <field name="wdv_cf" />
+                                                        </tree>                                                        
+                                                    </field>
+                                                </page>
+
+                                                <page name="tax_depr" string="Tax Depreciation">
+                                                    <group name="top">
+                                                        <group name="group_left">
+                                                        </group>
+                                                        <group name="group_right" >
+                                                        </group>
+                                                    </group>
+                                                    <field name="accounting_tax_ids" nolabel='1'>
+                                                        <tree editable="bottom">
+                                                            <field name="desc" />
+                                                            <field name="selection_type" />
+                                                            <field name="code" />
+                                                            <field name="wdv_bf" />
+                                                            <field name="capital_sale_value" />
+                                                            <field name="deletion" />
+                                                            <field name="capital_gain" />
+                                                            <field name="addition_in_pak" />
+                                                            <field name="extent_use" />
+                                                            <field name="addition_new" />
+                                                            <field name="initial_allowance" />
+                                                            <field name="depreciation" />
+                                                            <field name="wdv_cf" />
+                                                        </tree>
+                                                    </field>
+                                                    <group name="taxsummary" string="Summary" />
+                                                    <field name="pnl_tax_dep_sum_ids" nolabel='1'>
+                                                        <tree editable="bottom">
+                                                            <field name="selection_type" />
+                                                            <field name="code" />
+                                                            <field name="wdv_bf" />
+                                                            <field name="capital_sale_value" />
+                                                            <field name="deletion" />
+                                                            <field name="capital_gain" />
+                                                            <field name="addition_in_pak" />
+                                                            <field name="extent_use" />
+                                                            <field name="addition_new" />
+                                                            <field name="initial_allowance" />
+                                                            <field name="depreciation" />
+                                                            <field name="wdv_cf" />
+                                                        </tree>
+                                                    </field>
+                                                </page>
+
+                                            </notebook>
+                                       </sheet>
+                                   </form>
+                               </field>
+                           </record>
+        <!--=====================================================================================
+        #    vi: Balance Sheet.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="balance_sheet_sub_form_view" model="ir.ui.view">
+                    <field name="name">balance_sheet_sub_form_view</field>
+                    <field name="model">balance_sheet_sub.balance_sheet_sub</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Balance Sheet">
+                            <header>
+                                <button name="update" string="Update Records" type="object"/>
+                            </header>
+                            <sheet>
+                                <group name="group_top">
+                                    <field name="business" invisible="True"/>
+                                    <field name="name" />
+                                    <field name="tax_comp_bus"/>
+                                    <field name="total_2014"/>
+                                    <field name="total_2015"/>
+                                    <field name="total_2016"/>
+                                    <field name="name_of_business" invisible="True"/>
+                                    <field name="all_years" invisible="True" default="True"/>
+                                </group>
+                                <notebook col="4">
+                                    <page string="Balance Sheet" colspan="4">
+                                        <group name="first" string="Assets">
+                                            <field name="balance_sheet_id" nolabel='1'>
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="selection_type"/>
+                                                    <field name="y2016" sum="Total"/>
+                                                    <field name="y2015" sum="Total"/>
+                                                    <field name="y2014" sum="Total"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <group name="third" string="Capital">
+                                            <field name="balance_sheet_cap_id" nolabel='1'>
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="selection_type" invisible="True"/>
+                                                    <field name="y2016" sum="Total"/>
+                                                    <field name="y2015" sum="Total"/>
+                                                    <field name="y2014" sum="Total"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <group name="sec" string="Liability">
+                                            <field name="balance_sheet_lib_id" nolabel='1'>
+                                                <tree editable="bottom">
+                                                    <field name="description"/>
+                                                    <field name="selection_type"/>
+                                                    <field name="y2016" sum="Total"/>
+                                                    <field name="y2015" sum="Total"/>
+                                                    <field name="y2014" sum="Total"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                    </page>
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="balance_sheet_sub_action">
+                    <field name="name">Balance Sheet</field>
+                    <field name="res_model">balance_sheet_sub.balance_sheet_sub</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+<!--                 <menuitem name="Balance Sheet" id="balance_sheet_sub_child" parent="menu_income_tax_returns_child" action="balance_sheet_sub_action" sequence="6"/> -->
+            <!--************************[Menu-ENDS]***************************-->
+        <!--!!______________________[Capital-ENDS]__________________________________________!!-->
+
+
+        <!--=====================================================================================
+        #    v: Capital Gain Balance Sheet.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="capital_gain_balance_sheet_form_view" model="ir.ui.view">
+                    <field name="name">capital_gain_balance_sheet_form_view</field>
+                    <field name="model">capital_gain_balance_sheet.capital_gain_balance_sheet</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml"> 
+                        <form string="Capital Gain Balance Sheet">
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left">
+                                        <field name="name"/>
+                                        <field name="year_purchase"/>
+                                        <field name="sale_value"/>
+                                        <field name="purchase_value"/>
+                                        <field name="capital_gain"/>
+                                    </group>
+                                    <group name="group_right">
+                                        <field name="assets"/>
+                                        <field name="year_sale"/>
+                                        <field name="description"/>
+                                        <field name="sold_value"/>
+                                        <field name="remaining_value"/>
+                                    </group> 
+                                </group>
+                            </sheet>
+                        <!-- Mail foram-START -->
+                            <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers"/>
+                                <field name="message_ids" widget="mail_thread"/>
+                            </div>
+                        <!-- Mail foram-ENDS -->
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Tree View-START]=====================-->
+                <record id="capital_gain_balance_sheet_tree_view" model="ir.ui.view">
+                    <field name="name">capital_gain_balance_sheet_tree_view</field>
+                    <field name="model">capital_gain_balance_sheet.capital_gain_balance_sheet</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Capital Gain Balance Sheet">
+                            <field name="year_purchase"/>
+                            <field name="year_sale"/>
+                            <field name="description"/>
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="capital_gain_balance_sheet_action">
+                    <field name="name">Capital Gain Balance Sheet</field>
+                    <field name="res_model">capital_gain_balance_sheet.capital_gain_balance_sheet</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+
+
+        <!--=====================================================================================
+        #    v: Non Cash Recipts.
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="non_cash_recipts_form_view" model="ir.ui.view">
+                    <field name="name">non_cash_recipts_form_view</field>
+                    <field name="model">non.cash.receipts</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Non Cash Recipts">
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left">
+                                        <field name="name"/>
+                                    </group>
+                                    <group name="group_right">
+                                        <field name="receipts_ids" />
+                                        <field name="assets" />
+                                        
+                                    </group> 
+                                </group>
+                                <field name="non_receipt_ids">
+                                    <tree editable="bottom" nolabel="1">
+                                        <field name="description"/>
+                                        <field name="ncr_year"/>
+                                        <field name="ncr_addition"/>
+                                        <field name="ncr_cash"/>
+                                        <!-- <field name="net_amount"/> -->
+                                        <!-- <field name="year_purchase"/> -->
+                                        <field name="sale_value" invisible="True"/>
+                                        <field name="purchase_value" invisible="True"/>
+                                        <field name="capital_gain" invisible="True"/>
+                                        <field name="sold_value" invisible="True"/>
+                                        <field name="remaining_value"/>
+
+                                    </tree>
+                                </field>
+                      
+
+          
+                            </sheet>
+                            <!-- Mail foram-START -->
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
+                            <!-- Mail foram-ENDS -->
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Tree View-START]=====================-->
+                <record id="non_cash_recipts_tree_view" model="ir.ui.view">
+                    <field name="name">non_cash_recipts_tree_view</field>
+                    <field name="model">non.cash.receipts</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Non Cash Recipts">
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="non_cash_receipt_action">
+                    <field name="name">Non Cash Recipts</field>
+                    <field name="res_model">non.cash.receipts</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+<!--                 <menuitem name="Non Cash Recipts" id="non_cash_receipt_id" parent="menu_income_tax_returns_child" action="non_cash_receipt_action" sequence="5"/> -->
+            <!--************************[Menu-ENDS]***************************-->
+
+        <!--!!______________________[Capital Gain-ENDS]_____________________________________!!-->
+
+
+
+       <!--=====================================================================================
+        #    v: Final Tax .
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="final_tax_form_view" model="ir.ui.view">
+                    <field name="name">final_tax_form_view</field>
+                    <field name="model">final_tax.final_tax</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Final Tax">
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left">
+                                        <field name="name"/>
+                                        <field name="rate"/>
+                                    </group>
+                                    <group name="group_right">
+                                        <field name="section" />
+                                        <field name="model_name" invisible="True"/>
+                                        
+                                    </group> 
+                                </group>
+                            </sheet>
+                            <!-- Mail foram-START -->
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
+                            <!-- Mail foram-ENDS -->
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Tree View-START]=====================-->
+                <record id="final_tax_tree_view" model="ir.ui.view">
+                    <field name="name">final_tax_tree_view</field>
+                    <field name="model">final_tax.final_tax</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Final Tax">
+                            <field name="name"/>
+                            <field name="rate"/>
+                            <field name="section" />
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="final_tax_action">
+                    <field name="name">Final Tax</field>
+                    <field name="res_model">final_tax.final_tax</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+
+                <menuitem name="Final Tax" id="final_tax_id" parent="menu_config_child" action="final_tax_action" sequence="9"/>
+            <!--************************[Menu-ENDS]***************************-->
+
+        <!--!!______________________[Final Tax-ENDS]_____________________________________!!-->
+
+       <!--=====================================================================================
+        #    v: Tax Credits Rate .
+        ======================================================================================-->
+
+            <!--========================[Form View-START]=====================-->
+
+                <record id="tax_credits_rates_form_view" model="ir.ui.view">
+                    <field name="name">tax_credits_rates_form_view</field>
+                    <field name="model">tax.credits.tree</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Tax Credits Rates">
+                            <sheet>
+                                <group name="group_top">
+                                    <group name="group_left">
+                                        <field name="name"/>
+                                        <field name="rate"/>
+                                    </group>
+                                    <group name="group_right">
+                                        <field name="description" />
+                                        
+                                    </group> 
+                                </group>
+                            </sheet>
+                            <!-- Mail foram-START -->
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
+                            <!-- Mail foram-ENDS -->
+                        </form>
+                    </field>
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+
+            <!--========================[Tree View-START]=====================-->
+                <record id="tax_credits_rates_tree_view" model="ir.ui.view">
+                    <field name="name">tax_credits_rates</field>
+                    <field name="model">tax.credits.tree</field>
+                    <field name="type">tree</field>
+                    <field name="arch" type="xml">
+                        <tree string="Tax Credits Rates">
+                            <field name="name"/>
+                            <field name="rate"/>
+                            <field name="description" />
+                        </tree>
+                    </field>
+                </record>
+            <!--************************[Tree View-ENDS]**********************-->
+
+            <!--========================[Action-START]========================-->
+
+                <record model="ir.actions.act_window" id="tax_credits_rates_action">
+                    <field name="name">Tax Credits Rates</field>
+                    <field name="res_model">tax.credits.tree</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+                <menuitem name="Configuration" id="menu_config_child" parent="menu_income_tax_returns"  sequence="1"/>
+                <menuitem name="Tax Credits Rates" id="tax_credits_rates_id" parent="menu_config_child" action="tax_credits_rates_action" sequence="1"/>
+            <!--************************[Menu-ENDS]***************************-->
+
+        <!--!!______________________[Tax Credits Rates-ENDS]_____________________________________!!-->
+
+
+
+    </data>
+</openerp>

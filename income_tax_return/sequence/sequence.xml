@@ -1,0 +1,15 @@
+<openerp>
+  <data noupdate="1">
+      <record model="ir.sequence.type" id="seq_type_obj_id">
+            <field name="name">Name</field>
+            <field name="code">income.tax.returns</field>
+      </record>
+      <record model="ir.sequence" id="seq_obj_id">
+            <field name="name">Name</field>
+            <field name="code">income.tax.returns</field>
+            <field name="prefix">MYREC</field>
+            <field name="padding">4</field>
+            <field name="suffix">-Ends-</field>
+      </record>
+  </data>
+</openerp>

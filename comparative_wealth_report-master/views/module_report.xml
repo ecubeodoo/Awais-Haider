@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+
+        <template id="module_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <t t-foreach="docs" t-as="data">
+
+                        <div class="page">
+
+                            <style>
+                                <![CDATA[
+                                @font-face {
+                                    font-family: 'titilliumlight';
+                                    src: url('/comparative_wealth_report/static/src/fonts/titillium-light-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/titillium-light-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'titilliumregular';
+                                    src: url('/comparative_wealth_report/static/src/fonts/titillium-regular-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/titillium-regular-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'latoregular';
+                                    src: url('/comparative_wealth_report/static/src/fonts/lato-regular-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/lato-regular-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'robotoregular';
+                                    src: url('/comparative_wealth_report/static/src/fonts/roboto-regular-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/roboto-regular-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'titillium_bdbold';
+                                    src: url('/comparative_wealth_report/static/src/fonts/titillium-bold-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/titillium-bold-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'titilliumbold';
+                                    src: url('/comparative_wealth_report/static/src/fonts/titillium-semibold-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/titillium-semibold-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'latobold';
+                                    src: url('/comparative_wealth_report/static/src/fonts/lato-bold-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/lato-bold-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'robotobold';
+                                    src: url('/comparative_wealth_report/static/src/fonts/roboto-bold-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/roboto-bold-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'latomedium';
+                                    src: url('/comparative_wealth_report/static/src/fonts/lato-medium-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/lato-medium-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                @font-face {
+                                    font-family: 'robotomedium';
+                                    src: url('/comparative_wealth_report/static/src/fonts/roboto-medium-webfont.woff2') format('woff2'),
+                                         url('/comparative_wealth_report/static/src/fonts/roboto-medium-webfont.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+
+                                }
+                                ]]>
+                                h1, h2, h3, h4, h5, h6 {
+                                    font-family: 'robotomedium';
+                                    font-family: 'latomedium';
+                                    font-family: 'robotobold';
+                                    font-family: 'latobold';
+                                    font-family: 'titillium_bdbold';
+                                    font-family: 'titilliumbold';
+                                }
+                                .header,
+                                .footer {
+                                    display: none;
+                                }
+                                .report-wrapper {
+                                    width: 1000px;
+                                    margin: 0px auto;
+                                }
+                                table {
+                                    width: 100%;
+                                    border: 1px solid #000;
+                                    border-spacing: 0px;
+                                }
+                                table tr td,
+                                table tr th {
+                                    font-size: 16px;
+                                    font-family: 'latoregular';
+                                    font-family: 'titilliumlight';
+                                    font-family: 'titilliumregular';
+                                    font-family: 'robotoregular';
+                                    border-left: 1px solid #000;
+                                    padding: 5px 0px 5px 20px;
+                                }
+                                table tr th {
+                                    background: #CCC;
+
+                                }
+                                table tr td:first-child,
+                                table tr th:first-child {
+                                    border-left: none;
+                                }
+                                table tr td {
+                                    border-top: 1px solid #000;
+                                }
+                                table tr td.year {
+                                    min-width: 125px;
+                                    max-width: 125px;
+                                    width: 125px;
+                                }
+                                table.final-value tr td {
+                                    border: none;
+                                    font-weight: bold;
+                                }
+                                table.final-value {
+                                    border: none;
+                                }
+                                .heading {
+                                    font-family: 'robotomedium';
+                                    font-family: 'latomedium';
+                                    font-family: 'robotobold';
+                                    font-family: 'latobold';
+                                    font-family: 'titillium_bdbold';
+                                    font-family: 'titilliumbold';
+                                    text-align: center;
+                                    padding: 20px 0px 0px;
+                                    font-size: 20px;
+                                }
+                                h2 {
+                                    text-align: center;
+                                }
+                                h2 span {
+                                    border-bottom: 1px solid #000;
+                                }
+                                h3 {
+                                    font-size: 20px;
+                                }
+                                h3 span {
+                                    border-bottom: 1px solid #000;
+                                    padding: 0px 0px 3px 0px;
+                                }
+                                p.heading span {
+                                    border-bottom: 1px solid #000;
+                                }
+                                p.heading {
+                                    font-size: 30px;
+                                    font-weight: bold;
+                                }
+                            </style>
+
+                            <div class="report-wrapper">
+                                <p class="heading"><span>Comperative Wealth for </span><span t-esc="data.name.name"></span></p>
+                                <br />
+                                <h2><span>Cash Reconciliation</span></h2>
+                                <!-- Tabe for Cash Openings IDS -->
+                                <h3><span>Opening</span></h3>
+                                
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.cash_opening_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                            <t t-foreach="year" t-as="y">
+                                                <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'opening'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'opening', 'opening_id'))))"></span></td>
+
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Cash Receipts IDS -->
+                                <h3><span>Receipts</span></h3>
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th class="year"><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.cash_receipts_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                            <t t-foreach="year" t-as="y">
+                                                <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'receipts'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'receipts', 'receipts_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Cash Payments IDS -->
+                                <h3><span>Payments</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.cash_payments_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'payments'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'payments', 'payments_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Cash Reconciliation IDS -->
+                                <h3><span>Reconciliation of Cash and Bank Balance</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.cash_reconciliation_balance_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'reconciliation_balance'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'reconciliation_balance', 'reconciliation_balance_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+
+                                <table class="final-value">
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="(get_total_value(y, data.id, 'receipts', 'receipts_id') + get_total_value(y, data.id, 'opening', 'opening_id'))-(get_total_value(y, data.id, 'reconciliation_balance', 'reconciliation_balance_id') + get_total_value(y, data.id, 'payments', 'payments_id'))"></span></td>
+                                        </t>
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Wealth Reconciliation Opening IDS -->
+                                <h2><span>Wealth Reconciliation</span></h2>
+                                <h3><span>Opening</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.wealth_reconciliation_opening_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'wealth_reconciliation_open'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'wealth_reconciliation_open', 'wealth_open_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Table for Wealth Reconciliation Income IDS -->
+                                <h3><span>Income</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.wealth_reconciliation_income_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'wealth_reconciliation_income'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'wealth_reconciliation_income', 'wealth_income_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Wealth Reconciliation Expense IDS -->
+                                <h3><span>Expense</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.wealth_reconciliation_expense_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'wealth_reconciliation_expense'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'wealth_reconciliation_expense', 'wealth_expense_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Wealth Reconciliation Closing IDS -->
+                                <h3><span>Closing</span></h3>
+                                
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.cash_closing_1_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'closing_1_closing_1'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'closing_1_closing_1', 'closing_1_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                
+                                <table class="final-value">
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="(get_total_value(y, data.id, 'wealth_reconciliation_income', 'wealth_income_id') + get_total_value(y, data.id, 'wealth_reconciliation_open', 'wealth_open_id'))- (get_total_value(y, data.id, 'wealth_reconciliation_expense', 'wealth_expense_id') + get_total_value(y, data.id, 'closing_1_closing_1', 'closing_1_id'))"></span></td>
+                                        </t>
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Wealth Assets IDS -->
+                                <h2><span>Wealth Statement</span></h2>
+                                <h3><span>Assets</span></h3>
+                                
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.wealth_assets_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'wealth_assets'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'wealth_assets', 'assets_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Wealth Liability IDS -->
+                                <h3><span>Liability</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.wealth_liability_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'wealth_liability'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'wealth_liability', 'liability_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for Wealth Statement Closing IDS -->
+                                <h3><span>Closing</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Description</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.cash_closing_2_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.description"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'closing_2_closing_2'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_total_value(y, data.id, 'closing_2_closing_2', 'closing_2_id'))))"></span></td>
+                                        </t>
+                                        
+                                    </tr>
+                                </table>
+                                <br />
+                                <!-- Tabe for balance sheet IDS -->
+                                <!-- <h3><span>Closing</span></h3>
+
+                                <table>
+                                    <tr>
+
+                                        <th>Business</th>
+                                        <t t-foreach="year" t-as="y">
+                                            <th><span t-esc="y"></span></th>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="data.balance_sheet_workbook_ids" t-as="o">
+                                        <tr>
+                                            <td><span t-esc="o.business.tax_comp_bus.name.name"></span></td>
+                                             <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="'{:0,}'.format(int(float(get_year_value(y, o.id, 'balance_sheet_balance_sheet'))))"></span></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="1">Total</td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="get_total_value(y, data.id, 'balance_sheet_balance_sheet', 'balance_sheet_id')"></span></td>
+                                        </t>     
+                                    </tr>
+                                </table> -->
+                                
+                                <!-- <table class="final-value">
+                                    <t t-foreach="data.cash_closing_2_ids" t-as="o">
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <t t-foreach="year" t-as="y">
+                                            <td class="year"><span t-esc="(get_total_value(y, data.id, 'wealth_assets', 'assets_id') + get_total_value(y, data.id, 'wealth_liability', 'liability_id')) - (get_total_value(y, data.id, 'closing_2_closing_2', 'closing_2_id') + get_total_value(y, data.id, 'balance_sheet_balance_sheet', 'balance_sheet_id'))"></span></td>
+                                        </t>
+                                    </tr>
+                                    </t>
+                                </table> -->
+                                <br />
+                            </div><!--end of report wrapper-->
+
+                        </div><!--end of page-->
+                    </t>
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

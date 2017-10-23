@@ -1,0 +1,138 @@
+<openerp>
+    <data>
+        <record id="fbr_details_form_view" model="ir.ui.view">
+            <field name="name">fbr_details_form_view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Accounting']" position="after">
+                     <page string="FBR Registration Details">
+                        <group>
+                            <group>
+                                <field name="fbr_user_id"/>
+                                <field name="password"/>
+                                <field name="pin"/>
+                                <field name="cell_no"/>
+                                <field name="regis_no"/>
+                                <field name="strn"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="registered_address"/>
+                                <field name="address_1"/>
+                                <field name="address_2"/>
+                            </group>
+                        </group>
+                    </page>
+                     <page string="Punjab">
+                        <group>
+                            <group>
+                                <field name="punj_user_id"/>
+                                <field name="punj_password"/>
+                                <field name="punj_pin"/>
+                                <field name="punj_cell_no"/>
+                                <field name="punj_regis_no"/>
+                                <field name="punj_pntn"/>
+                            </group>
+                            <group>
+                                <field name="punj_email"/>
+                                <field name="punj_registered_address"/>
+                                <field name="punj_address_1"/>
+                                <field name="punj_address_2"/>
+                            </group>
+                        </group>
+                    </page>
+                     <page string="KPK">
+                        <group>
+                            <group>
+                                <field name="kpk_user_id"/>
+                                <field name="kpk_password"/>
+                                <field name="kpk_pin"/>
+                                <field name="kpk_cell_no"/>
+                                <field name="kpk_regis_no"/>
+                                <field name="kpk_kntn"/>
+                            </group>
+                            <group>
+                                <field name="kpk_email"/>
+                                <field name="kpk_registered_address"/>
+                                <field name="kpk_address_1"/>
+                                <field name="kpk_address_2"/>
+                            </group>
+                        </group>
+                    </page>
+                     <page string="Sindh">
+                        <group>
+                            <group>
+                                <field name="sindh_user_id"/>
+                                <field name="sindh_password"/>
+                                <field name="sindh_pin"/>
+                                <field name="sindh_cell_no"/>
+                                <field name="sindh_regis_no"/>
+                                <field name="sindh_sntn"/>
+                            </group>
+                            <group>
+                                <field name="sindh_email"/>
+                                <field name="sindh_registered_address"/>
+                                <field name="sindh_address_1"/>
+                                <field name="sindh_address_2"/>
+                            </group>
+                        </group>
+                    </page>
+                     <page string="Islamabad">
+                        <group>
+                            <group>
+                                <field name="isbd_user_id"/>
+                                <field name="isbd_password"/>
+                                <field name="isbd_pin"/>
+                                <field name="isbd_cell_no"/>
+                                <field name="isbd_regis_no"/>
+                            </group>
+                            <group>
+                                <field name="isbd_email"/>
+                                <field name="isbd_registered_address"/>
+                                <field name="isbd_address_1"/>
+                                <field name="isbd_address_2"/>
+                            </group>
+                        </group>
+                    </page>
+                     <page string="Balochistan">
+                        <group>
+                            <group>
+                                <field name="bloc_user_id"/>
+                                <field name="bloc_password"/>
+                                <field name="bloc_pin"/>
+                                <field name="bloc_cell_no"/>
+                                <field name="bloc_regis_no"/>
+                                <field name="bloc_bntn"/>
+                            </group>
+                            <group>
+                                <field name="bloc_email"/>
+                                <field name="bloc_registered_address"/>
+                                <field name="bloc_address_1"/>
+                                <field name="bloc_address_2"/>
+                            </group>
+                        </group>
+                    </page>
+                     <page string="SECP">
+                        <group>
+                            <group>
+                                <field name="secp_user_id"/>
+                                <field name="secp_password"/>
+                                <field name="secp_pin"/>
+                                <field name="secp_cell_no"/>
+                                <field name="secp_regis_no"/>
+                            </group>
+                            <group>
+                                <field name="secp_email"/>
+                                <field name="secp_registered_address"/>
+                                <field name="secp_address_1"/>
+                                <field name="secp_address_2"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

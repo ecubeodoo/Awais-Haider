@@ -1,0 +1,167 @@
+<![CDATA[
+@font-face {
+    font-family: 'titilliumlight';
+    src: url('/comparative_wealth_report/static/src/fonts/titillium-light-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/titillium-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'titilliumregular';
+    src: url('/comparative_wealth_report/static/src/fonts/titillium-regular-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/titillium-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'latoregular';
+    src: url('/comparative_wealth_report/static/src/fonts/lato-regular-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/lato-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'robotoregular';
+    src: url('/comparative_wealth_report/static/src/fonts/roboto-regular-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/roboto-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'titillium_bdbold';
+    src: url('/comparative_wealth_report/static/src/fonts/titillium-bold-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/titillium-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'titilliumbold';
+    src: url('/comparative_wealth_report/static/src/fonts/titillium-semibold-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/titillium-semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'latobold';
+    src: url('/comparative_wealth_report/static/src/fonts/lato-bold-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/lato-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'robotobold';
+    src: url('/comparative_wealth_report/static/src/fonts/roboto-bold-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/roboto-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'latomedium';
+    src: url('/comparative_wealth_report/static/src/fonts/lato-medium-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/lato-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'robotomedium';
+    src: url('/comparative_wealth_report/static/src/fonts/roboto-medium-webfont.woff2') format('woff2'),
+         url('/comparative_wealth_report/static/src/fonts/roboto-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+]]>
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'robotomedium';
+    font-family: 'latomedium';
+    font-family: 'robotobold';
+    font-family: 'latobold';
+    font-family: 'titilliumbold';
+    font-family: 'titillium_bdbold';
+}
+.header,
+.footer {
+    display: none;
+}
+.report-wrapper {
+    width: 1000px;
+    margin: 0px auto;
+}
+table {
+    width: 100%;
+    border: 1px solid #000;
+    border-spacing: 0px;
+}
+table tr td,
+table tr th {
+    font-size: 16px;
+    font-family: 'robotoregular';
+    font-family: 'latoregular';
+    font-family: 'titilliumlight';
+    font-family: 'titilliumregular';
+    border-left: 1px solid #000;
+    padding: 5px 0px 5px 20px;
+}
+table tr th {
+    background: #CCC;
+
+}
+table tr td:first-child,
+table tr th:first-child {
+    border-left: none;
+}
+table tr td {
+    border-top: 1px solid #000;
+}
+table tr td.year {
+    min-width: 125px;
+    max-width: 125px;
+    width: 125px;
+}
+table.final-value tr td {
+    border: none;
+    font-weight: bold;
+}
+table.final-value {
+    border: none;
+}
+.heading {
+    font-family: 'robotomedium';
+    font-family: 'latomedium';
+    font-family: 'robotobold';
+    font-family: 'latobold';
+    font-family: 'titilliumbold';
+    font-family: 'titillium_bdbold';
+    text-align: center;
+    padding: 20px 0px 0px;
+    font-size: 20px;
+}
+h2 {
+    text-align: center;
+}
+h2 span {
+    border-bottom: 1px solid #000;
+}
+h3 {
+    font-size: 20px;
+}
+h3 span {
+    border-bottom: 1px solid #000;
+    padding: 0px 0px 3px 0px;
+}
+p.heading span {
+    border-bottom: 1px solid #000;
+}
+p.heading {
+    font-size: 30px;
+    font-weight: bold;
+}

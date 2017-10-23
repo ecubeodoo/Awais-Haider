@@ -1,0 +1,85 @@
+# -*- coding: utf-8 -*-
+
+from openerp import models, fields, api
+
+class fbr_details(models.Model):
+    _inherit   = 'res.partner'
+
+    fbr_user_id             = fields.Char(string="User Id")
+    user_id             = fields.Char(string="User Id")
+    password            = fields.Char(string="Password")
+    pin                 = fields.Char(string="Pin")
+    regis_no  			= fields.Char(string="NTN")
+    cell_no             = fields.Char(string="Cell No")
+    email               = fields.Char(string="Email Id")
+    registered_address  = fields.Char(string="Registered Address")
+    address_1           = fields.Char(string="Address 1")
+    address_2           = fields.Char(string="Address 2")
+    strn                = fields.Char(string="STRN")
+
+
+    punj_user_id             = fields.Char(string="User Id")
+    punj_password            = fields.Char(string="Password")
+    punj_pin                 = fields.Char(string="Pin")
+    punj_regis_no  			 = fields.Char(string="NTN")
+    punj_cell_no             = fields.Char(string="Cell No")
+    punj_email               = fields.Char(string="Email Id")
+    punj_registered_address  = fields.Char(string="Registered Address")
+    punj_address_1           = fields.Char(string="Address 1")
+    punj_address_2           = fields.Char(string="Address 2")
+    punj_pntn                = fields.Char(string="PNTN")
+
+    kpk_user_id             = fields.Char(string="User Id")
+    kpk_password            = fields.Char(string="Password")
+    kpk_pin                 = fields.Char(string="Pin")
+    kpk_regis_no  			= fields.Char(string="NTN")
+    kpk_cell_no             = fields.Char(string="Cell No")
+    kpk_email               = fields.Char(string="Email Id")
+    kpk_registered_address  = fields.Char(string="Registered Address")
+    kpk_address_1           = fields.Char(string="Address 1")
+    kpk_address_2           = fields.Char(string="Address 2")
+    kpk_kntn                = fields.Char(string="KNTN")
+
+    sindh_user_id             = fields.Char(string="User Id")
+    sindh_password            = fields.Char(string="Password")
+    sindh_pin                 = fields.Char(string="Pin")
+    sindh_regis_no  		  = fields.Char(string="NTN")
+    sindh_cell_no             = fields.Char(string="Cell No")
+    sindh_email               = fields.Char(string="Email Id")
+    sindh_registered_address  = fields.Char(string="Registered Address")
+    sindh_address_1           = fields.Char(string="Address 1")
+    sindh_address_2           = fields.Char(string="Address 2")
+    sindh_sntn                = fields.Char(string="SNTN")
+
+    isbd_user_id             = fields.Char(string="User Id")
+    isbd_password            = fields.Char(string="Password")
+    isbd_pin                 = fields.Char(string="Pin")
+    isbd_regis_no  			 = fields.Char(string="NTN")
+    isbd_cell_no             = fields.Char(string="Cell No")
+    isbd_email               = fields.Char(string="Email Id")
+    isbd_registered_address  = fields.Char(string="Registered Address")
+    isbd_address_1           = fields.Char(string="Address 1")
+    isbd_address_2           = fields.Char(string="Address 2")
+
+
+    bloc_user_id             = fields.Char(string="User Id")
+    bloc_password            = fields.Char(string="Password")
+    bloc_pin                 = fields.Char(string="Pin")
+    bloc_regis_no  			 = fields.Char(string="NTN")
+    bloc_cell_no             = fields.Char(string="Cell No")
+    bloc_email               = fields.Char(string="Email Id")
+    bloc_registered_address  = fields.Char(string="Registered Address")
+    bloc_address_1           = fields.Char(string="Address 1")
+    bloc_address_2           = fields.Char(string="Address 2")
+    bloc_bntn                = fields.Char(string="BNTN")
+
+
+    secp_user_id             = fields.Char(string="User Id")
+    secp_password            = fields.Char(string="Password")
+    secp_pin                 = fields.Char(string="Pin")
+    secp_regis_no            = fields.Char(string="CUIN")
+    secp_cell_no             = fields.Char(string="Cell No")
+    secp_email               = fields.Char(string="Email Id")
+    secp_registered_address  = fields.Char(string="Registered Address")
+    secp_address_1           = fields.Char(string="Address 1")
+    secp_address_2           = fields.Char(string="Address 2")
