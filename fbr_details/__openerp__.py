@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "fbr_details",
+    'name': "fbr_details..",
 
     'summary': """
         """,
