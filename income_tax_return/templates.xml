@@ -143,37 +143,21 @@
                                         
                                         <!-- Group-"Cash Difference"-START -->
                                             <group name="reconciliation_difference" string="Cash Difference">
-<!--                                                 <field name="total_2005" invisible="0" string="Year 2005" attrs="{'invisible': [('total_2005', '==', 0)]}"/>
-                                                <field name="total_2006" invisible="0" string="Year 2006" attrs="{'invisible': [('total_2006', '==', 0)]}"/>
-                                                <field name="total_2007" invisible="0" string="Year 2007" attrs="{'invisible': [('total_2007', '==', 0)]}"/>
-                                                <field name="total_2008" invisible="0" string="Year 2008" attrs="{'invisible': [('total_2008', '==', 0)]}"/>
-                                                <field name="total_2009" invisible="0" string="Year 2009" attrs="{'invisible': [('total_2009', '==', 0)]}"/>
-                                                <field name="total_2010" invisible="0" string="Year 2010" attrs="{'invisible': [('total_2010', '==', 0)]}"/>
-                                                <field name="total_2011" invisible="0" string="Year 2011" attrs="{'invisible': [('total_2011', '==', 0)]}"/>
-                                                <field name="total_2012" invisible="0" string="Year 2012" attrs="{'invisible': [('total_2012', '==', 0)]}"/>
-                                                <field name="total_2013" invisible="0" string="Year 2013" attrs="{'invisible': [('total_2013', '==', 0)]}"/> -->
+                                                <field name="total_2017" />
                                                 <field name="total_2016" />
                                                 <field name="total_2015" />
                                                 <field name="total_2014" invisible="0" string="Year 2014" attrs="{'invisible': [('total_2014', '==', 0)]}"/>
-<!--                                                 <field name="total_2017" invisible="0" string="Year 2017" attrs="{'invisible': [('total_2017', '==', 0)]}"/>
-                                                <field name="total_2018" invisible="0" string="Year 2018" attrs="{'invisible': [('total_2018', '==', 0)]}"/>
-                                                <field name="total_2019" invisible="0" string="Year 2019" attrs="{'invisible': [('total_2019', '==', 0)]}"/>
+<!--                                             
                                                 <field name="total_2020" invisible="0" string="Year 2020" attrs="{'invisible': [('total_2020', '==', 0)]}"/> -->
                                             </group>
                                         <!-- Group-"Cash Difference"-ENDS -->
 
                                         <!-- Group-"Reconciliation Difference"-START -->
                                             <group name="cash_difference" string="Reconciliation Difference">
-<!--                                                 <field name="ttl_2011" invisible="0" string="Year 2011" attrs="{'invisible': [('ttl_2011', '==', 0)]}"/>
-                                                <field name="ttl_2012" invisible="0" string="Year 2012" attrs="{'invisible': [('ttl_2012', '==', 0)]}"/>
-                                                <field name="ttl_2013" invisible="0" string="Year 2013" attrs="{'invisible': [('ttl_2013', '==', 0)]}"/> -->
+                                                <field name="ttl_2017"/>
                                                 <field name="ttl_2016"/>
                                                 <field name="ttl_2015" />
                                                 <field name="ttl_2014" invisible="0" string="Year 2014" attrs="{'invisible': [('ttl_2014', '==', 0)]}"/>
-<!--                                                 <field name="ttl_2017" invisible="0" string="Year 2017" attrs="{'invisible': [('ttl_2017', '==', 0)]}"/>
-                                                <field name="ttl_2018" invisible="0" string="Year 2018" attrs="{'invisible': [('ttl_2018', '==', 0)]}"/>
-                                                <field name="ttl_2019" invisible="0" string="Year 2019" attrs="{'invisible': [('ttl_2019', '==', 0)]}"/>
-                                                <field name="ttl_2020" invisible="0" string="Year 2020" attrs="{'invisible': [('ttl_2020', '==', 0)]}"/> -->
                                             </group>
                                         <!-- Group-"Reconciliation Difference"-ENDS -->
 
@@ -201,16 +185,12 @@
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
                                                         <field name="receipt_type" string="Type"/>
-<!--                                                         <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
                                                     </tree>
                                                 </field>
                                             <!-- "Opening Workbook"-END -->
@@ -227,16 +207,11 @@
                                                         <field name="tax_type" string="Tax Type"/>
                                                         <field name="non_cash_receipts" context="{'default_name': parent.name, 'default_receipts_ids': active_id}"/>
                                                         <field name="capital_gain" context="{'default_name': parent.name}" />
-<!--                                                         <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
                                                     </tree>
                                                 </field>
                                             <!-- "Receipts Workbook"-END-->
@@ -253,16 +228,12 @@
                                                         <field name="deductible_allowance_ids"/>
                                                         <field name="tax_type" string="Tax Type"/>
                                                         <field name="sub_type" string="Sub Tax Type"/>
-<!--                                                         <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
                                                     </tree>
                                                 </field>
                                             <!-- "Payments Workbook"-END-->
@@ -275,16 +246,12 @@
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
                                                         <field name="receipt_type" string="Type"/>
-<!--                                                         <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
                                                     </tree>
                                                 </field>
                                             <!-- "Reconciliation of Cash and Bank Balance Workbook"-END-->
@@ -302,22 +269,10 @@
                                                     <tree editable="bottom">
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
 
                                                     </tree>
                                                 </field>
@@ -332,22 +287,12 @@
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
                                                         <field name="receipt_type" string="Type"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
 
                                                     </tree>
                                                 </field>
@@ -362,22 +307,12 @@
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
                                                         <field name="receipt_type" string="Type"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
                                                     </tree>
                                                 </field>
                                             <!-- Workbook-"Expense"-ENDS -->
@@ -390,22 +325,12 @@
                                                     <tree editable="bottom">
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
                                                     </tree>
                                                 </field>
                                             <!-- Workbook-"Closing"-ENDS -->
@@ -423,6 +348,7 @@
                                                         <field name="description"/>
                                                         <!-- <field name="opening_assets"/> -->
                                                         <field name="types"/>
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
@@ -435,22 +361,12 @@
                                                         <field name="description"/>
                                                         <!-- <field name="opening_assets"/> -->
                                                         <field name="types"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
 
                                                     </tree>
                                                 </field>
@@ -465,6 +381,7 @@
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
                                                         <field name="types"/>
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
@@ -476,22 +393,12 @@
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
                                                         <field name="types"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
 
                                                     </tree>
                                                 </field>
@@ -505,6 +412,7 @@
                                                     <tree editable="bottom">
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
@@ -515,22 +423,12 @@
                                                     <tree editable="bottom">
                                                         <field name="sequence" widget="handle" />
                                                         <field name="description"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
                                                     </tree>
                                                 </field>
                                             <!-- Workbook-"Closing"-ENDS -->
@@ -546,6 +444,7 @@
                                                     <tree editable="bottom">
                                                         <field name="sequence" widget="handle" />
                                                         <field name="business"/>
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
@@ -556,22 +455,12 @@
                                                     <tree editable="bottom">
                                                         <field name="sequence" widget="handle" />
                                                         <field name="business"/>
-<!--                                                         <field name="y2005" sum="Total"/>
-                                                        <field name="y2006" sum="Total"/>
-                                                        <field name="y2007" sum="Total"/>
-                                                        <field name="y2008" sum="Total"/>
-                                                        <field name="y2009" sum="Total"/>
-                                                        <field name="y2010" sum="Total"/>
-                                                        <field name="y2011" sum="Total"/>
-                                                        <field name="y2012" sum="Total"/>
-                                                        <field name="y2013" sum="Total"/> -->
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
-<!--                                                         <field name="y2017" sum="Total"/>
-                                                        <field name="y2018" sum="Total"/>
-                                                        <field name="y2019" sum="Total"/>
-                                                        <field name="y2020" sum="Total"/> -->
+
 
                                                     </tree>
                                                 </field>
@@ -586,6 +475,8 @@
                                                     <tree editable="bottom">
                                                         <field name="sequence" widget="handle" />
                                                         <field name="business"/>
+
+                                                        <field name="y2017" sum="Total"/>
                                                         <field name="y2016" sum="Total"/>
                                                         <field name="y2015" sum="Total"/>
                                                         <field name="y2014" sum="Total"/>
@@ -780,31 +671,7 @@
                                                 </group>
                                             </group>    
                                         </page>
-<!--                                         <page string="Tax Computation" colspan="4">
-                                            <group name="tax_under_ntr" string="Tax under NTR" col="2">
-                                                <field name="income_under_ntr"/>
-                                                <field name="exempt_income"/>
-                                                <field name="deductible_allowance"/>
-                                                <field name="taxable_income"/>
-                                                <field name="tax_rate"/>
-                                                <field name="fixed_tax"/>
-                                                <field name="tax_liability"/>
-                                                <field name="portion_of_minimum_tax"/>
-                                                <field name="payable_tax"/>
-                                                <field name="tax_adjust"/>
-                                                <field name="tax_deduct_min"/>
-                                                <field name="total_tax"/>
-                                                <field name="tax_credits"/>
-                                                <field name="refund_adjust"/>
-                                                <field name="tax_ratio"/>
-                                                <field name="rebate"/>
-                                                <field name="admitted_tax"/>
-                                            </group>
-                                            <group name="tax_under_ntr" string="Tax under FTR" col="2">
-                                                <field name="income_under_ftr"/>
-                                                <field name="tax_deduct"/>
-                                            </group>
-                                        </page> -->
+
                                         <page string="Tax Computations details">
                                             <group name="income_under_ntr" string="Income Under NTR">
                                             </group>
@@ -1226,6 +1093,7 @@
                                         <field name="capital_working_id" attrs="{'invisible': [('all_years', '!=', False)]}" nolabel='1'>
                                             <tree editable="bottom">
                                                 <field name="description"/>
+                                                <field name="y2017" sum="Total"/>
                                                 <field name="y2016" sum="Total"/>
                                                 <field name="y2015" sum="Total"/>
                                                 <field name="y2014" sum="Total"/>
@@ -1234,22 +1102,12 @@
                                         <field name="capital_working_ids" attrs="{'invisible': [('all_years', '!=', True)]}" nolabel='1'>
                                             <tree editable="bottom">
                                                 <field name="description"/>
-<!--                                                 <field name="y2005" sum="Total"/>
-                                                <field name="y2006" sum="Total"/>
-                                                <field name="y2007" sum="Total"/>
-                                                <field name="y2008" sum="Total"/>
-                                                <field name="y2009" sum="Total"/>
-                                                <field name="y2010" sum="Total"/>
-                                                <field name="y2011" sum="Total"/>
-                                                <field name="y2012" sum="Total"/>
-                                                <field name="y2013" sum="Total"/> -->
+
+                                                <field name="y2017" sum="Total"/>
                                                 <field name="y2016" sum="Total"/>
                                                 <field name="y2015" sum="Total"/>
                                                 <field name="y2014" sum="Total"/>
-<!--                                                 <field name="y2017" sum="Total"/>
-                                                <field name="y2018" sum="Total"/>
-                                                <field name="y2019" sum="Total"/>
-                                                <field name="y2020" sum="Total"/> -->
+
                                             </tree>
                                         </field>
                                     </page>
@@ -1505,6 +1363,7 @@
                                     <field name="total_2014"/>
                                     <field name="total_2015"/>
                                     <field name="total_2016"/>
+                                    <field name="total_2017"/>
                                     <field name="name_of_business" invisible="True"/>
                                     <field name="all_years" invisible="True" default="True"/>
                                 </group>
@@ -1515,6 +1374,7 @@
                                                 <tree editable="bottom">
                                                     <field name="description"/>
                                                     <field name="selection_type"/>
+                                                    <field name="y2017" sum="Total"/>
                                                     <field name="y2016" sum="Total"/>
                                                     <field name="y2015" sum="Total"/>
                                                     <field name="y2014" sum="Total"/>
@@ -1526,6 +1386,7 @@
                                                 <tree editable="bottom">
                                                     <field name="description"/>
                                                     <field name="selection_type" invisible="True"/>
+                                                    <field name="y2017" sum="Total"/>
                                                     <field name="y2016" sum="Total"/>
                                                     <field name="y2015" sum="Total"/>
                                                     <field name="y2014" sum="Total"/>
@@ -1537,6 +1398,7 @@
                                                 <tree editable="bottom">
                                                     <field name="description"/>
                                                     <field name="selection_type"/>
+                                                    <field name="y2017" sum="Total"/>
                                                     <field name="y2016" sum="Total"/>
                                                     <field name="y2015" sum="Total"/>
                                                     <field name="y2014" sum="Total"/>
