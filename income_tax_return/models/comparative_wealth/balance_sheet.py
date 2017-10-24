@@ -11,6 +11,7 @@ class balance_sheet_years_prototype(models.Model):
 	y2014 = fields.Float(string = "2014")
 	y2015 = fields.Float(string = "2015")
 	y2016 = fields.Float(string = "2016")
+	y2017 = fields.Float(string = "2017")
 
 class balance_sheet_sub(models.Model):
 	_name               = 'balance_sheet_sub.balance_sheet_sub'
@@ -28,6 +29,7 @@ class balance_sheet_sub(models.Model):
 	total_2014 = fields.Float(string="Total_2014 : ")
 	total_2015 = fields.Float(string="Total_2015 : ")
 	total_2016 = fields.Float(string="Total_2016 : ")
+	total_2017 = fields.Float(string="Total_2017 : ")
 
 	@api.multi
 	def write(self, vals):
@@ -154,6 +156,7 @@ class balance_sheet(models.Model):
 			self.y2014 = sum(x.y2014 for x in balance_sheet.balance_sheet_ids)
 			self.y2015 = sum(x.y2015 for x in balance_sheet.balance_sheet_ids)
 			self.y2016 = sum(x.y2016 for x in balance_sheet.balance_sheet_ids)
+			self.y2017 = sum(x.y2017 for x in balance_sheet.balance_sheet_ids)
 
 class balance_sheet_sub_sub_cap(models.Model):
 	_name       = 'balance_sheet_sub_sub_cap.balance_sheet_sub_sub_cap'
