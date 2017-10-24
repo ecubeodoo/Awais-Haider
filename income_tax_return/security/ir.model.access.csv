@@ -4,7 +4,7 @@ access_capital_gain_tree,capital.gain.tree,model_capital_gain_tree,base.group_us
 access_capital_gain_balance_sheet,capital_gain_balance_sheet.capital_gain_balance_sheet,model_capital_gain_balance_sheet_capital_gain_balance_sheet,base.group_user,1,1,1,1
 access_final_tax,final_tax.final_tax,model_final_tax_final_tax,base.group_user,1,1,1,1
 access_income_tax_returns,income.tax.returns,model_income_tax_returns,base.group_user,1,1,1,1
-access_non_cash_reciepts,non.cash.receipts,model_non_cash_reciepts,base.group_user,1,1,1,1
+access_non_cash_reciepts,non.cash.receipts,model_non_cash_receipts,base.group_user,1,1,1,1
 access_non_cash_receipts_tree,non.cash.receipts.tree,model_non_cash_receipts_tree,base.group_user,1,1,1,1
 access_business_individuals,business_individuals.business_individuals,model_business_individuals_business_individuals,base.group_user,1,1,1,1
 access_income_from_property,income.from.property,model_income_from_property,base.group_user,1,1,1,1
