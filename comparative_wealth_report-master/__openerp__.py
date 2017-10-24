@@ -15,6 +15,7 @@
     'data': [
         'template.xml',
         'views/module_report.xml',
+        'security/ir.model.access.csv',
     ],
     'css': ['static/src/css/report.css'],
 }
