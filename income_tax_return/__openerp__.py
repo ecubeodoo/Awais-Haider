@@ -21,8 +21,8 @@
         'sequence/sequence.xml',
         'sequence/sequence1.xml',
         'wizards/wizards.xml',
-        # 'security/ir.model.access.csv',
-        # 'security/income_tax_return_security.xml',
+        'security/ir.model.access.csv',
+        'security/income_tax_return_security.xml',
     ],
     'installable' : True,
 }
